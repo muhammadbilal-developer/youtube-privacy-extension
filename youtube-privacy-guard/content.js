@@ -121,10 +121,51 @@
   let applyTimeoutId = null;
   let revealVideoTemporarily = false;
 
+  function ensureInitialGuardStyle() {
+    if (document.getElementById("ypg-initial-guard-style")) {
+      return;
+    }
+
+    const style = document.createElement("style");
+    style.id = "ypg-initial-guard-style";
+    style.textContent = `
+      /* Temporary guard to reduce first-load thumbnail flash */
+      yt-thumbnail-view-model img,
+      .ytThumbnailViewModelImage img,
+      ytd-thumbnail img,
+      #thumbnail img,
+      a#thumbnail img {
+        filter: blur(12px) !important;
+      }
+    `;
+    (document.head || document.documentElement).appendChild(style);
+  }
+
+  function removeInitialGuardStyle() {
+    const style = document.getElementById("ypg-initial-guard-style");
+    if (style) {
+      style.remove();
+    }
+  }
+
+  function syncRootStateClasses(settings) {
+    const root = document.documentElement;
+    if (!root) {
+      return;
+    }
+
+    const thumbnailsEnabled = Boolean(settings.enabled && settings.blurThumbnails);
+    root.classList.toggle("ypg-thumb-blur-enabled", thumbnailsEnabled);
+  }
+
   function collectUniqueElements(selectors) {
     const elements = new Set();
     selectors.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((element) => elements.add(element));
+      try {
+        document.querySelectorAll(selector).forEach((element) => elements.add(element));
+      } catch (error) {
+        console.warn("[YPG] Invalid selector skipped:", selector, error);
+      }
     });
     return elements;
   }
@@ -239,6 +280,7 @@
       console.log("[YPG] Applying blur with settings:", settings);
 
       if (!settings.enabled) {
+        syncRootStateClasses(settings);
         removeAllBlurClasses();
         const existingButton = document.getElementById("ypg-reveal-btn");
         if (existingButton) {
@@ -247,6 +289,7 @@
         return;
       }
 
+      syncRootStateClasses(settings);
       updateClassBySetting("blurThumbnails", settings);
       updateClassBySetting("blurTitles", settings);
       updateClassBySetting("blurProfilePictures", settings);
@@ -262,10 +305,22 @@
       syncVideoBlurState(settings);
     } catch (error) {
       console.error("[YPG] Failed to apply blur:", error);
+    } finally {
+      removeInitialGuardStyle();
     }
   }
 
-  function scheduleApplyBlur() {
+  function scheduleApplyBlur(immediate = false) {
+    if (immediate) {
+      if (applyTimeoutId) {
+        clearTimeout(applyTimeoutId);
+      }
+      requestAnimationFrame(() => {
+        applyBlur();
+      });
+      return;
+    }
+
     if (applyTimeoutId) {
       clearTimeout(applyTimeoutId);
     }
@@ -313,10 +368,11 @@
     console.log("[YPG] yt-navigate-finish fired.");
     revealVideoTemporarily = false;
     observeMoviePlayer();
-    scheduleApplyBlur();
+    scheduleApplyBlur(true);
   });
 
+  ensureInitialGuardStyle();
   observeBody();
   observeMoviePlayer();
-  scheduleApplyBlur();
+  scheduleApplyBlur(true);
 })();

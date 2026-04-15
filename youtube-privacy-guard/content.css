@@ -7,6 +7,34 @@
   filter: blur(0px) !important;
 }
 
+/* Fallback: blur dynamically injected thumbnails immediately when enabled */
+html.ypg-thumb-blur-enabled yt-thumbnail-view-model,
+html.ypg-thumb-blur-enabled yt-thumbnail-view-model img,
+html.ypg-thumb-blur-enabled .ytThumbnailViewModelImage img,
+html.ypg-thumb-blur-enabled .ytCoreImageHost,
+html.ypg-thumb-blur-enabled ytd-thumbnail,
+html.ypg-thumb-blur-enabled ytd-thumbnail img,
+html.ypg-thumb-blur-enabled #thumbnail,
+html.ypg-thumb-blur-enabled #thumbnail img,
+html.ypg-thumb-blur-enabled a#thumbnail,
+html.ypg-thumb-blur-enabled a#thumbnail img {
+  filter: blur(12px) !important;
+  transition: filter 0.2s ease !important;
+}
+
+html.ypg-thumb-blur-enabled yt-thumbnail-view-model:hover,
+html.ypg-thumb-blur-enabled yt-thumbnail-view-model img:hover,
+html.ypg-thumb-blur-enabled .ytThumbnailViewModelImage img:hover,
+html.ypg-thumb-blur-enabled .ytCoreImageHost:hover,
+html.ypg-thumb-blur-enabled ytd-thumbnail:hover,
+html.ypg-thumb-blur-enabled ytd-thumbnail img:hover,
+html.ypg-thumb-blur-enabled #thumbnail:hover,
+html.ypg-thumb-blur-enabled #thumbnail img:hover,
+html.ypg-thumb-blur-enabled a#thumbnail:hover,
+html.ypg-thumb-blur-enabled a#thumbnail img:hover {
+  filter: blur(0px) !important;
+}
+
 .ypg-blur-title {
   filter: blur(6px) !important;
   transition: filter 0.2s ease;
