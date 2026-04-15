@@ -1,5 +1,13 @@
+:root {
+  --ypg-thumb-blur: 9px;
+  --ypg-title-blur: 4.5px;
+  --ypg-video-blur: 15px;
+  --ypg-profile-blur: 3px;
+  --ypg-search-blur: 3.75px;
+}
+
 .ypg-blur-thumbnail {
-  filter: blur(12px) !important;
+  filter: blur(var(--ypg-thumb-blur, 12px)) !important;
   transition: filter 0.2s ease;
 }
 
@@ -18,7 +26,7 @@ html.ypg-thumb-blur-enabled #thumbnail,
 html.ypg-thumb-blur-enabled #thumbnail img,
 html.ypg-thumb-blur-enabled a#thumbnail,
 html.ypg-thumb-blur-enabled a#thumbnail img {
-  filter: blur(12px) !important;
+  filter: blur(var(--ypg-thumb-blur, 12px)) !important;
   transition: filter 0.2s ease !important;
 }
 
@@ -36,7 +44,7 @@ html.ypg-thumb-blur-enabled a#thumbnail img:hover {
 }
 
 .ypg-blur-title {
-  filter: blur(6px) !important;
+  filter: blur(var(--ypg-title-blur, 6px)) !important;
   transition: filter 0.2s ease;
 }
 
@@ -45,12 +53,12 @@ html.ypg-thumb-blur-enabled a#thumbnail img:hover {
 }
 
 .ypg-blur-video {
-  filter: blur(20px) !important;
+  filter: blur(var(--ypg-video-blur, 20px)) !important;
   transition: filter 0.3s ease;
 }
 
 .ypg-blur-profile {
-  filter: blur(4px) !important;
+  filter: blur(var(--ypg-profile-blur, 4px)) !important;
   transition: filter 0.2s ease;
 }
 
@@ -59,7 +67,7 @@ html.ypg-thumb-blur-enabled a#thumbnail img:hover {
 }
 
 .ypg-blur-search {
-  filter: blur(5px) !important;
+  filter: blur(var(--ypg-search-blur, 5px)) !important;
   transition: filter 0.2s ease;
 }
 

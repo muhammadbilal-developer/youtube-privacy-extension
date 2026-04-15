@@ -51,7 +51,8 @@
     blurPlayingVideo: true,
     blurShortsVideo: true,
     blurProfilePictures: false,
-    blurSearchSuggestions: false
+    blurSearchSuggestions: false,
+    blurIntensityPercent: 75
   };
 
   const SELECTOR_MAP = {
@@ -135,7 +136,7 @@
       ytd-thumbnail img,
       #thumbnail img,
       a#thumbnail img {
-        filter: blur(12px) !important;
+        filter: blur(var(--ypg-thumb-blur, 12px)) !important;
       }
     `;
     (document.head || document.documentElement).appendChild(style);
@@ -156,6 +157,40 @@
 
     const thumbnailsEnabled = Boolean(settings.enabled && settings.blurThumbnails);
     root.classList.toggle("ypg-thumb-blur-enabled", thumbnailsEnabled);
+  }
+
+  function normalizeIntensityPercent(value) {
+    const parsed = Number(value);
+    if (Number.isNaN(parsed)) {
+      return 75;
+    }
+    return Math.min(100, Math.max(10, parsed));
+  }
+
+  function resolveIntensityPercent(settings) {
+    if (typeof settings.blurIntensityPercent !== "undefined") {
+      return normalizeIntensityPercent(settings.blurIntensityPercent);
+    }
+
+    // Backward compatibility: older versions used blurIntensity px for thumbnails.
+    const legacyPx = Number(settings.blurIntensity);
+    if (!Number.isNaN(legacyPx)) {
+      const convertedPercent = Math.round((legacyPx / 12) * 100);
+      return normalizeIntensityPercent(convertedPercent);
+    }
+
+    return 75;
+  }
+
+  function setBlurVariables(percent) {
+    const scale = percent / 100;
+    const extremeBoost = percent === 100 ? 3 : 1;
+    const rootStyle = document.documentElement.style;
+    rootStyle.setProperty("--ypg-thumb-blur", `${(12 * scale * extremeBoost).toFixed(2)}px`);
+    rootStyle.setProperty("--ypg-title-blur", `${(6 * scale * extremeBoost).toFixed(2)}px`);
+    rootStyle.setProperty("--ypg-video-blur", `${(20 * scale * extremeBoost).toFixed(2)}px`);
+    rootStyle.setProperty("--ypg-profile-blur", `${(4 * scale * extremeBoost).toFixed(2)}px`);
+    rootStyle.setProperty("--ypg-search-blur", `${(5 * scale * extremeBoost).toFixed(2)}px`);
   }
 
   function collectUniqueElements(selectors) {
@@ -276,8 +311,13 @@
 
   async function applyBlur() {
     try {
-      const settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
+      const settings = await chrome.storage.sync.get({
+        ...DEFAULT_SETTINGS,
+        blurIntensity: 12
+      });
       console.log("[YPG] Applying blur with settings:", settings);
+      const intensityPercent = resolveIntensityPercent(settings);
+      setBlurVariables(intensityPercent);
 
       if (!settings.enabled) {
         syncRootStateClasses(settings);

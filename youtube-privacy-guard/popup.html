@@ -39,14 +39,6 @@
           </span>
         </label>
 
-        <label class="option-row" for="blurTitles">
-          <span class="label">📝 Video Titles</span>
-          <span class="switch">
-            <input id="blurTitles" type="checkbox" />
-            <span class="slider"></span>
-          </span>
-        </label>
-
         <label class="option-row" for="blurPlayingVideo">
           <span class="label">▶ Playing Video</span>
           <span class="switch">
@@ -62,24 +54,17 @@
             <span class="slider"></span>
           </span>
         </label>
-
-        <label class="option-row" for="blurProfilePictures">
-          <span class="label">👤 Profile Pictures</span>
-          <span class="switch">
-            <input id="blurProfilePictures" type="checkbox" />
-            <span class="slider"></span>
-          </span>
-        </label>
-
-        <label class="option-row" for="blurSearchSuggestions">
-          <span class="label">🔍 Search Suggestions</span>
-          <span class="switch">
-            <input id="blurSearchSuggestions" type="checkbox" />
-            <span class="slider"></span>
-          </span>
-        </label>
       </section>
 
+      <section id="blurIntensityRow" class="card intensity-card">
+        <div class="intensity-header">
+          <span>Blur Intensity</span>
+          <strong id="blurIntensityValue">75%</strong>
+        </div>
+        <input id="blurIntensity" class="intensity-slider" type="range" min="10" max="100" step="5" />
+      </section>
+
+      <button id="reviewButton" class="review-button" type="button">⭐ Leave a Review</button>
       <footer class="popup-footer">Settings sync across devices</footer>
     </main>
 

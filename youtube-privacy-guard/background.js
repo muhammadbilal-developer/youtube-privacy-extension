@@ -5,7 +5,8 @@ const DEFAULT_SETTINGS = {
   blurPlayingVideo: true,
   blurShortsVideo: true,
   blurProfilePictures: false,
-  blurSearchSuggestions: false
+  blurSearchSuggestions: false,
+  blurIntensityPercent: 75
 };
 
 chrome.runtime.onInstalled.addListener(async (details) => {
