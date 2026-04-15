@@ -121,6 +121,34 @@
 
   let applyTimeoutId = null;
   let revealVideoTemporarily = false;
+  let isExtensionContextAlive = true;
+
+  function isContextInvalidatedError(error) {
+    const message = String(error?.message || error || "");
+    return message.includes("Extension context invalidated");
+  }
+
+  function hasRuntimeAccess() {
+    try {
+      return Boolean(isExtensionContextAlive && chrome?.runtime?.id && chrome?.storage?.sync);
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function markContextInvalidated(error) {
+    if (!isContextInvalidatedError(error)) {
+      return false;
+    }
+
+    isExtensionContextAlive = false;
+    if (applyTimeoutId) {
+      clearTimeout(applyTimeoutId);
+      applyTimeoutId = null;
+    }
+    console.warn("[YPG] Extension context invalidated. Stopping blur updates.");
+    return true;
+  }
 
   function ensureInitialGuardStyle() {
     if (document.getElementById("ypg-initial-guard-style")) {
@@ -310,6 +338,10 @@
   }
 
   async function applyBlur() {
+    if (!hasRuntimeAccess()) {
+      return;
+    }
+
     try {
       const settings = await chrome.storage.sync.get({
         ...DEFAULT_SETTINGS,
@@ -344,13 +376,19 @@
       ensureRevealButton(settings);
       syncVideoBlurState(settings);
     } catch (error) {
-      console.error("[YPG] Failed to apply blur:", error);
+      if (!markContextInvalidated(error)) {
+        console.error("[YPG] Failed to apply blur:", error);
+      }
     } finally {
       removeInitialGuardStyle();
     }
   }
 
   function scheduleApplyBlur(immediate = false) {
+    if (!hasRuntimeAccess()) {
+      return;
+    }
+
     if (immediate) {
       if (applyTimeoutId) {
         clearTimeout(applyTimeoutId);
