@@ -1,0 +1,64 @@
+.ypg-blur-thumbnail {
+  filter: blur(12px) !important;
+  transition: filter 0.2s ease;
+}
+
+.ypg-blur-thumbnail:hover {
+  filter: blur(0px) !important;
+}
+
+.ypg-blur-title {
+  filter: blur(6px) !important;
+  transition: filter 0.2s ease;
+}
+
+.ypg-blur-title:hover {
+  filter: blur(0px) !important;
+}
+
+.ypg-blur-video {
+  filter: blur(20px) !important;
+  transition: filter 0.3s ease;
+}
+
+.ypg-blur-profile {
+  filter: blur(4px) !important;
+  transition: filter 0.2s ease;
+}
+
+.ypg-blur-profile:hover {
+  filter: blur(0px) !important;
+}
+
+.ypg-blur-search {
+  filter: blur(5px) !important;
+  transition: filter 0.2s ease;
+}
+
+.ypg-blur-search:hover {
+  filter: blur(0px) !important;
+}
+
+#ypg-reveal-btn {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2147483647;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 12px 16px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#ypg-reveal-btn:hover {
+  transform: translate(-50%, -50%) scale(1.04);
+  background: rgba(255, 0, 0, 0.8);
+}

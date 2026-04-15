@@ -1,0 +1,16 @@
+{
+  "name": "youtube-privacy-guard",
+  "version": "1.0.0",
+  "description": "YouTube Privacy Guard is a Chrome extension that blurs sensitive content on YouTube pages, including thumbnails, video titles, active videos, Shorts previews, profile images, and optional search suggestions.",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "canvas": "^3.2.3"
+  }
+}

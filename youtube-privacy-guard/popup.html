@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube Privacy Guard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup">
+      <header class="popup-header">
+        <div class="brand">
+          <span class="brand-icon" aria-hidden="true">🛡️</span>
+          <div class="brand-text">
+            <h1>YouTube Privacy Guard</h1>
+            <p>Hover over blurred items to reveal them</p>
+          </div>
+        </div>
+        <label class="switch" title="Enable or disable all privacy protections">
+          <input id="enabled" type="checkbox" />
+          <span class="slider"></span>
+        </label>
+      </header>
+
+      <section class="card" aria-labelledby="blur-options-title">
+        <h2 id="blur-options-title">Blur Options</h2>
+
+        <label class="option-row" for="blurThumbnails">
+          <span class="label">🖼 Thumbnails</span>
+          <span class="switch">
+            <input id="blurThumbnails" type="checkbox" />
+            <span class="slider"></span>
+          </span>
+        </label>
+
+        <label class="option-row" for="blurTitles">
+          <span class="label">📝 Video Titles</span>
+          <span class="switch">
+            <input id="blurTitles" type="checkbox" />
+            <span class="slider"></span>
+          </span>
+        </label>
+
+        <label class="option-row" for="blurPlayingVideo">
+          <span class="label">▶ Playing Video</span>
+          <span class="switch">
+            <input id="blurPlayingVideo" type="checkbox" />
+            <span class="slider"></span>
+          </span>
+        </label>
+
+        <label class="option-row" for="blurShortsVideo">
+          <span class="label">📱 Shorts Videos</span>
+          <span class="switch">
+            <input id="blurShortsVideo" type="checkbox" />
+            <span class="slider"></span>
+          </span>
+        </label>
+
+        <label class="option-row" for="blurProfilePictures">
+          <span class="label">👤 Profile Pictures</span>
+          <span class="switch">
+            <input id="blurProfilePictures" type="checkbox" />
+            <span class="slider"></span>
+          </span>
+        </label>
+
+        <label class="option-row" for="blurSearchSuggestions">
+          <span class="label">🔍 Search Suggestions</span>
+          <span class="switch">
+            <input id="blurSearchSuggestions" type="checkbox" />
+            <span class="slider"></span>
+          </span>
+        </label>
+      </section>
+
+      <footer class="popup-footer">Settings sync across devices</footer>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
